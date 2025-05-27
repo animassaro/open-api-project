@@ -1,0 +1,81 @@
+/* TO-DO: add media query/responsiveness */
+
+html {
+  font-size: 16px;
+}
+
+header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 4.75em;
+  background-color: rgb(82, 34, 34);
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+}
+
+h1 {
+  margin-left: 0.875rem;
+  margin-right: 15em;
+  color: antiquewhite;
+  font-size: 2rem;
+}
+
+body {
+  background-image: url("/images/image.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  color: antiquewhite;
+}
+
+h2 {
+  font-size: 1.75rem;
+  margin: 0;
+}
+
+#description {
+  font-size: 1rem;
+}
+
+#base-container {
+  background-color: rgb(82, 34, 34);
+  width: 50%;
+  border-radius: 10px;
+  margin-left: 4.375em;
+  margin-top: 8.438em;
+  padding: 1.25em;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#artwork {
+  width: 50%;
+  padding: 1em;
+}
+
+#artist {
+  margin: 0;
+  padding: 1.625em;
+  font-size: 1.25rem;
+}
+
+#btn {
+  background-color: antiquewhite;
+  color: rgb(82, 34, 34);
+  padding: 0.625em;
+}
+
+@media (max-width: 767px) {
+  header {
+    margin-right: 0px;
+  }
+
+  h1 {
+    font-size: 0.85rem;
+  }
+}

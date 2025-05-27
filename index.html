@@ -7,7 +7,19 @@
     <link rel="stylesheet" href="/index.css" />
   </head>
   <body>
-    <h1>Open API Project</h1>
+    <header>
+      <h1>Open API Project</h1>
+      <p id="description">
+        A project delivering a single artwork, its title, and the artist's name,
+        fetched from the ARTIC API.
+      </p>
+    </header>
+    <div id="base-container">
+      <img id="artwork" />
+      <h2 id="title"></h2>
+      <p id="artist"></p>
+      <button id="btn">🎨 Click for New Art</button>
+    </div>
     <script src="/index.js"></script>
   </body>
 </html>
