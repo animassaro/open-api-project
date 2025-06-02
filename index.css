@@ -82,3 +82,32 @@ button {
   border-radius: 10px;
   font-family: Fauna One, serif;
 }
+
+@media (max-width: 767px) {
+  header {
+    height: 6em;
+  }
+
+  h1 {
+    margin-left: 1rem;
+    margin-right: 10em;
+    font-size: 1.5rem;
+  }
+
+  body {
+    background-image: url("/images/mobile.png");
+    background-position: 0 6rem;
+    background-size: cover;
+  }
+
+  #base-container {
+    width: 70%;
+    margin-left: 6.3rem;
+    margin-top: 12rem;
+  }
+
+  #artwork {
+    width: 60%;
+    padding: 1em;
+  }
+}
