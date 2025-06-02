@@ -1,8 +1,15 @@
-//TO-DO: display an artwork on loading without button press
-const header = document.querySelector("h1");
+//Retrieve buttons from index.html for use with associated functions
+const random = document.getElementById("btn");
+const dogs = document.getElementById("dogs");
 
+//Retrieve sections to update with images of artwork, title, and artist's name.
+const artwork = document.querySelector("#artwork");
+const title = document.querySelector("#title");
+const artist = document.querySelector("#artist");
+
+//Fetch request to general collection, specifying desired fields of artwork id, image, title, and artist's name.
 fetch(
-  "https://api.artic.edu/api/v1/artworks?fields=id,image_id,title,artist_title,date_display,provenance_text,is_public_domain&limit=40"
+  "https://api.artic.edu/api/v1/artworks?fields=id,image_id,title,artist_title&limit=40"
 )
   .then((res) => {
     if (!res.ok) {
@@ -11,30 +18,101 @@ fetch(
     return res.json();
   })
   .then((data) => {
-    const collection = data.data; //target artwork object and store in collection
-    console.log(collection);
+    //Grab array of information about returned artworks.
+    const collection = data.data;
 
+    //Function which selects a random index in the collection array, and populates index.html with image of the selected artwork, and text of artist's name and piece's title.
     function refresh() {
-      let i = Math.floor(Math.random() * collection.length); //to display a random artwork on button press, we get a random number multiplying by length of the collection so we don't go out of bounds.
-      let piece = collection[i]; //the info about the artwork is stored in a variable
+      let i = Math.floor(Math.random() * collection.length);
+      let piece = collection[i];
+      let artImg = "";
 
-      var artImg = //image is fetched from API, inserting the required id for that art piece into the url. **check if it can be done with template literal instead this looks ugly
-        "https://www.artic.edu/iiif/2/" +
-        piece.image_id +
-        "/full/843,/0/default.jpg";
+      //if/else used to handle cases wherein a piece of requested information is unavailable.
+      if (piece.image_id === null) {
+        artImg = "/images/unavailable.png";
+      } else {
+        artImg = `https://www.artic.edu/iiif/2/${piece.image_id}/full/843,/0/default.jpg`;
+      }
 
-      var artwork = document.querySelector("#artwork"); //get element where image of the artwork will go
-      artwork.setAttribute("src", artImg); //change the image src attribute to hold the artwork
+      artwork.setAttribute("src", artImg);
 
-      var title = document.querySelector("#title"); //get element where title of artwork will go
-      title.innerText = piece.title; //insert text containing title gotten from API
+      if (piece.title === null) {
+        title.innerText = "Title unknown";
+      } else {
+        title.innerText = piece.title;
+      }
 
-      var artist = document.querySelector("#artist"); //get element where artist's name will go
-      artist.innerText = piece.artist_title; //insert text
+      if (piece.artist_title === null) {
+        artist.innerText = "Artist unknown";
+      } else {
+        artist.innerText = piece.artist_title;
+      }
     }
 
-    btn.addEventListener("click", refresh); //on button click, run func refresh and display a new artwork + appropriate title/name
+    //Use button to retrieve a new artwork.
+    random.addEventListener("click", refresh);
   })
   .catch((error) => {
     console.error("Error: ", error);
   });
+
+//Function 'fetcher()' makes two further API requests. The first retrieves an array of objects marked as containing artwork featuring dogs. However, there is no image stored
+//in these objects. So, we retrieved the ID of the artworks instead. The nested fetch then makes use of this ID to retrieve information on the selected artwork.
+function fetcher() {
+  fetch("https://api.artic.edu/api/v1/artworks/search?q=dogs")
+    .then((res) => {
+      if (!res.ok) {
+        throw new Error("Something went wrong.");
+      }
+      return res.json();
+    })
+    .then((data) => {
+      const url = data.data;
+      let target = [];
+
+      //Store all of the IDs retrieved from the fetch in an array to be inserted in the subsequent fetch. One will be selected at random.
+      for (let i = 0; i < url.length; i++) {
+        target.push(url[i].id);
+      }
+      let randomId = target[Math.floor(Math.random() * target.length)];
+
+      fetch(`https://api.artic.edu/api/v1/artworks/${randomId}`)
+        .then((res) => {
+          if (!res.ok) {
+            throw new Error("Something went wrong");
+          }
+          return res.json();
+        })
+        .then((info) => {
+          const dogArt = info.data;
+
+          //Function displayDog() assembles all of the datapoints for insertion into index.html.
+          function displayDog() {
+            let dogImg = "";
+
+            if (dogArt.image_id === null) {
+              dogImg = "/images/unavailable.png";
+            } else {
+              dogImg = `https://www.artic.edu/iiif/2/${dogArt.image_id}/full/843,/0/default.jpg`;
+            }
+
+            artwork.setAttribute("src", dogImg);
+
+            if (dogArt.title === null) {
+              title.innerText = "Title unknown";
+            } else {
+              title.innerText = dogArt.title;
+            }
+
+            if (dogArt.artist_title === null) {
+              artist.innerText = "Artist unknown";
+            } else {
+              artist.innerText = dogArt.artist_title;
+            }
+          }
+          displayDog();
+        });
+    });
+}
+//Use button to retrieve a new dog-specific artwork.
+dogs.addEventListener("click", fetcher);
