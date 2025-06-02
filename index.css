@@ -19,10 +19,11 @@ header {
 }
 
 h1 {
-  margin-left: 0.875rem;
-  margin-right: 15em;
+  margin-left: 0rem;
+  margin-right: 20.5em;
   color: antiquewhite;
   font-size: 2rem;
+  font-family: Cinzel, serif;
 }
 
 body {
@@ -30,15 +31,19 @@ body {
   background-repeat: no-repeat;
   background-size: cover;
   color: antiquewhite;
+  font-family: Fauna One, serif;
 }
 
 h2 {
-  font-size: 1.75rem;
+  font-size: 1.6rem;
+  font-family: Cinzel, serif;
   margin: 0;
+  width: 50%;
+  text-align: center;
 }
 
 #description {
-  font-size: 1rem;
+  font-size: 0.85rem;
 }
 
 #base-container {
@@ -46,7 +51,7 @@ h2 {
   width: 50%;
   border-radius: 10px;
   margin-left: 4.375em;
-  margin-top: 8.438em;
+  margin-top: 7em;
   padding: 1.25em;
   display: flex;
   flex-direction: column;
@@ -60,22 +65,20 @@ h2 {
 
 #artist {
   margin: 0;
-  padding: 1.625em;
+  padding: 0.625em;
   font-size: 1.25rem;
 }
 
-#btn {
+#btn-container {
+  display: flex;
+  flex-direction: row;
+}
+
+button {
   background-color: antiquewhite;
   color: rgb(82, 34, 34);
   padding: 0.625em;
-}
-
-@media (max-width: 767px) {
-  header {
-    margin-right: 0px;
-  }
-
-  h1 {
-    font-size: 0.85rem;
-  }
+  margin: 0.5em;
+  border-radius: 10px;
+  font-family: Fauna One, serif;
 }
